@@ -1,0 +1,135 @@
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 2%;
+  width: 60%;
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+  body {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  body {
+    padding: 2% 0;
+    width: 89%;
+  }
+}
+
+.slider {
+  overflow: hidden;
+  position: relative;
+}
+
+.slider .slider-wrapper {
+  position: relative;
+}
+
+.slider .item {
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.slider .item.active {
+  display: block;
+}
+
+.slider .item img {
+  height: auto;
+  width: 100%;
+}
+
+.slider .item .caption {
+  background-color: #ffffff;
+  bottom: 5px;
+  font-size: 14px;
+  left: 1px;
+  padding: 5px;
+  position: absolute;
+}
+
+@media only screen and (max-width: 767px) {
+  .slider .item .caption {
+    bottom: 6px;
+    font-size: 11px;
+    padding: 2px;
+  }
+}
+
+.slider-control {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: none;
+  padding-bottom: 4.78%;
+  position: absolute;
+  top: 40%;
+  width: 5%;
+}
+
+.slider-control:focus {
+  outline: 0;
+}
+
+.slider-control.prev {
+  background: url("../carousel/images/arrows.png") 0 33.33333% no-repeat;
+  background-size: 100%;
+  left: 0;
+}
+
+.slider-control.prev:hover {
+  background: url("../carousel/images/arrows.png") 0 0% no-repeat;
+  background-size: 100%;
+  left: 0;
+}
+
+.slider-control.next {
+  background: url("../carousel/images/arrows.png") 0 100% no-repeat;
+  background-size: 100%;
+  right: 0;
+}
+
+.slider-control.next:hover {
+  background: url("../carousel/images/arrows.png") 0 66.66667% no-repeat;
+  background-size: 100%;
+  right: 0;
+}
+
+.pagination-container {
+  bottom: 0.5vw;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+  .pagination-container {
+    bottom: 0.3vw;
+  }
+}
+
+.pagination-container .pagination {
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  height: 0;
+  margin: 0 0.3%;
+  padding-bottom: 1.2%;
+  width: 1.2%;
+}
+
+.pagination-container .pagination:hover {
+  background-color: #ffffff;
+}
+
+.pagination-container .active {
+  background-color: #ffffff;
+}
+/*# sourceMappingURL=style.css.map */

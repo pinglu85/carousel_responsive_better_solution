@@ -1,0 +1,187 @@
+@import './bourbon/bourbon';
+
+$dot-color: #ffffff;
+
+//variable for css image sprites
+$slider-control-image: url('../carousel/images/arrows.png');
+$xpos: 0;
+$repeat: no-repeat;
+$size: 100%;
+
+$border: 1px solid $dot-color;
+
+$tablet: 'only screen and (max-width: 991px) and (min-width: 768px)';
+$phone: 'only screen and (max-width: 767px)';
+
+@mixin slider-control-arrow(
+  $slider-control-image,
+  $xpos,
+  $ypos,
+  $repeat,
+  $size,
+  $direction
+) {
+  background: $slider-control-image $xpos $ypos $repeat;
+  background-size: $size;
+  #{ $direction }: 0;
+}
+
+@mixin border-style($border) {
+  border: $border;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 2%;
+  width: 60%;
+
+  @media #{$tablet} {
+    width: 80%;
+  }
+
+  @media #{$phone} {
+    padding: 2% 0;
+    width: 89%;
+  }
+}
+
+.slider {
+  overflow: hidden;
+  position: relative; // A relative positioned element is positioned relative to itself,
+  // in other words, relative to where it would normally occur in the document.
+  // The width, margin and padding of the element would also be relative/equal
+  // to the parent element.
+
+  .slider-wrapper {
+    position: relative;
+  }
+
+  .item {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &.active {
+      display: block;
+    }
+
+    img {
+      height: auto;
+      width: 100%;
+    }
+
+    .caption {
+      background-color: $dot-color;
+      bottom: 5px;
+      font-size: 14px;
+      left: 1px;
+      padding: 5px;
+      position: absolute; // position it relative to its nearest parent
+
+      @media #{$phone} {
+        bottom: 6px;
+        font-size: 11px;
+        padding: 2px;
+      }
+    }
+  }
+}
+
+.slider-control {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: none;
+  padding-bottom: 4.78%;
+  position: absolute;
+  top: 40%;
+  width: 5%;
+
+  //remove blue border when focused
+  &:focus {
+    outline: 0;
+  }
+
+  &.prev {
+    @include slider-control-arrow(
+      $slider-control-image,
+      $xpos,
+      33.333333%,
+      $repeat,
+      $size,
+      left
+    );
+
+    &:hover {
+      @include slider-control-arrow(
+        $slider-control-image,
+        $xpos,
+        0%,
+        $repeat,
+        $size,
+        left
+      );
+    }
+  }
+
+  &.next {
+    @include slider-control-arrow(
+      $slider-control-image,
+      $xpos,
+      100%,
+      $repeat,
+      $size,
+      right
+    );
+
+    &:hover {
+      @include slider-control-arrow(
+        $slider-control-image,
+        $xpos,
+        66.666667%,
+        $repeat,
+        $size,
+        right
+      );
+    }
+  }
+}
+
+.pagination-container {
+  bottom: 0.5vw;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  @media #{$phone} {
+    bottom: 0.3vw;
+  }
+
+  .pagination {
+    @include border-style($border);
+    background-color: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block; // "inline" means elements don’t have a definable height and width
+    // and unlike "block" it will not create new rows in a layout (thus they appear “inline”).
+    // "inline-block" displays the paragraphs inline, but allow them to retain
+    // their block-level characteristics. This means we can set a width and
+    // height manually and have the two elements remain distinct,
+    // but also have them appear next to each other in the document flow.
+    height: 0;
+    margin: 0 0.3%;
+    padding-bottom: 1.2%;
+    width: 1.2%;
+
+    &:hover {
+      background-color: $dot-color;
+    }
+  }
+
+  .active {
+    background-color: $dot-color;
+  }
+}
