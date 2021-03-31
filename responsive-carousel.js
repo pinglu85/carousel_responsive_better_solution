@@ -245,18 +245,18 @@
 
     animate: function (slide) {
       // variable i is for counting
-      let i = 0,
-        self = this,
-        animation = setInterval(() => {
-          slide.style.left =
-            this.mode === 'next'
-              ? parseInt(slide.style.left) - 2 + '%'
-              : parseInt(slide.style.left) + 2 + '%';
-          i++;
-          if (i >= 50) {
-            stopAnimation();
-          }
-        }, 7);
+      let i = 0;
+      let self = this;
+      let animation = setInterval(() => {
+        slide.style.left =
+          this.mode === 'next'
+            ? parseInt(slide.style.left) - 2 + '%'
+            : parseInt(slide.style.left) + 2 + '%';
+        i++;
+        if (i >= 50) {
+          stopAnimation();
+        }
+      }, 7);
 
       function stopAnimation() {
         self.slides[self.currentSlideIndex].classList.remove('.active');
