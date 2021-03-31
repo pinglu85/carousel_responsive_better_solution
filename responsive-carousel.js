@@ -1,17 +1,15 @@
 /*jshint esversion: 6 */
 
-(function() {
+(function () {
   'use strict';
 
   function Slideshow(element) {
-    // The use of the this keyword inside the function specifies that
-    // these properties will be unique to every instance of the User object.
     this.el = document.querySelector(element);
     this.init();
   }
 
   Slideshow.prototype = {
-    init: function() {
+    init: function () {
       this.wrapper = this.el.querySelector('.slider-wrapper');
       this.slides = this.el.querySelectorAll('.item');
       this.total = this.slides.length;
@@ -33,11 +31,6 @@
       this.touchDistance = null;
       this.autoSlideTimer = null;
 
-      // Because the DOMContentLoaded event is fired without waiting
-      // for stylesheets, images, and subframes to finish loading,
-      // to get the rendered height of the slide, a "load" event listener
-      // should be used for the setContainerHeight function
-      // when the page is loaded at the first time.
       window.addEventListener('load', () => {
         this.setContainerHeight(this.currentSlideIndex);
       });
@@ -52,37 +45,6 @@
       this.mouseOverListener();
       this.autoSlide();
 
-      // Use an anonymous function to pass parameters
-      // to the listener function:
-      //
-      //     element.addEventListener("click", function(){modifyText("four"); }, false);
-      //
-      // or use an arrow function:
-      //
-      //     element.addEventListener("click", () => { modifyText("four"); }, false);
-      //
-      // Note that while anonymous and arrow functions are similar,
-      // they have different this bindings.
-      // In anonymous functions, "this" will be out of context,
-      // whereas arrow functions capture the this value of the
-      // enclosing context, in other words, in arrow functions,
-      // "this" retains the value of the enclosing lexical
-      // context's this.
-      // For example:
-      //  a)
-      //     $('.btn').click(function() {
-      //       setTimeout(function() {
-      //         $(this).text('new');
-      //         // This will cause an error since function() defines this as the global object.
-      //       }, 100);
-      //     });
-      //  b)
-      //     $('.btn').click(function () { // <- Enclosing context
-      //       setTimeout( () => {
-      //         $(this).text('new');
-      //         // This works, because this will be set to a value captured from the enclosing context.
-      //       },100);
-      //     });
       window.addEventListener(
         'resize',
         () => {
@@ -103,15 +65,7 @@
     },
 
     //sets the container height to the height of slides. Height is not defined in css.
-    setContainerHeight: function(slideIndex) {
-      // The Window.getComputedStyle() method returns an object that
-      // reports the values of all CSS properties of an element after
-      // applying active stylesheets and resolving any basic computation
-      // those values may contain.
-      //
-      // var is scoped to the nearest function block and let is scoped to
-      // the nearest enclosing block, which can be smaller than a function block.
-      // Both are global if outside any block.
+    setContainerHeight: function (slideIndex) {
       let heightProp = window
         .getComputedStyle(this.slides[slideIndex])
         .getPropertyValue('height');
@@ -119,10 +73,7 @@
       this.wrapper.style.height = heightProp;
     },
 
-    sliderControlListener: function() {
-      // let self = this;
-      // Because of using arrow function, there is no need to
-      // assign "this" value to the "self" to avoid the binding problem.
+    sliderControlListener: function () {
       this.next.addEventListener(
         'click',
         () => {
@@ -142,21 +93,9 @@
       );
     },
 
-    paginationListener: function() {
-      // In order to add event listener to each array element,
-      // variable "i" must be declared within the for loop.
-      //   for (let i = 0; i < this.total; i++) {
-      //     this.pagination[i].addEventListener("click", () => {
-      //       console.log(i);
-      //     }, false);
-      //   }
-      // Use
-      //   array.forEach(function(element_value, element_index) {...});
-      // as an alternative method. Parameter element_value and
-      // element_index store the information of each array element for the
-      // forEach method.
+    paginationListener: function () {
       let self = this;
-      self.pagination.forEach(function(pagination, index) {
+      self.pagination.forEach(function (pagination, index) {
         pagination.addEventListener(
           'click',
           () => {
@@ -175,14 +114,14 @@
       });
     },
 
-    autoSlide: function() {
+    autoSlide: function () {
       this.autoSlideTimer = setInterval(() => {
         this.mode = 'next';
         this.setTargets(this.mode);
       }, 5000);
     },
 
-    mouseOverListener: function() {
+    mouseOverListener: function () {
       // stops auto slide mode on hover
       this.el.addEventListener(
         'mouseover',
@@ -202,22 +141,10 @@
       );
     },
 
-    touchListener: function() {
-      // The evt.changedTouches value is stored in the evt
-      // parameter within the addEventListener, it will be
-      // lost or undefined when outside the addEventListener
-      // and the function with the evt parameter. However,
-      // when use "touchstart", "touchmove", "touchend",
-      // their changedTouches values can be used by each other.
-      //
-      // Since calling preventDefault() on a touchstart or
-      // the first touchmove event of a series prevents
-      // the corresponding mouse events from firing, it's
-      // common to call preventDefault() on touchmove
-      // rather than touchstart.
+    touchListener: function () {
       this.el.addEventListener(
         'touchstart',
-        evt => {
+        (evt) => {
           clearInterval(this.autoSlideTimer);
           this.autoSlideTimer = null;
           this.touchStart = evt.changedTouches[0].clientX;
@@ -226,7 +153,7 @@
       );
       this.el.addEventListener(
         'touchmove',
-        evt => {
+        (evt) => {
           evt.preventDefault();
           this.touchMove = evt.changedTouches[0].clientX;
           this.touchActions();
@@ -242,7 +169,7 @@
       );
     },
 
-    touchActions: function() {
+    touchActions: function () {
       this.touchDistance =
         this.touchMove - this.touchStart - this.containerOffsetLeft;
       if (
@@ -260,12 +187,10 @@
       }
     },
 
-    setTargets: function(mode) {
+    setTargets: function (mode) {
       // prevents function from running while an animation is active
       if (this.running) {
         return false;
-        // The return statement immediately stops execution of our
-        // function and the code below will be never executed.
       }
 
       this.running = true;
@@ -288,7 +213,7 @@
       this.slideTo(this.currentSlideIndex, this.newSlideIndex);
     },
 
-    paginationSetTargets: function(paginationIndex) {
+    paginationSetTargets: function (paginationIndex) {
       if (this.running) {
         return false;
       }
@@ -297,7 +222,7 @@
       this.slideTo(this.currentSlideIndex, this.newSlideIndex);
     },
 
-    slideTo: function(currentSlideIndex, newSlideIndex) {
+    slideTo: function (currentSlideIndex, newSlideIndex) {
       this.pagination[currentSlideIndex].classList.remove('active');
       this.pagination[newSlideIndex].classList.add('active');
 
@@ -318,7 +243,7 @@
       this.animate(this.slides[currentSlideIndex]);
     },
 
-    animate: function(slide) {
+    animate: function (slide) {
       // variable i is for counting
       let i = 0,
         self = this,
@@ -333,10 +258,6 @@
           }
         }, 7);
 
-      // In order to stop setInterval using clearInterval in a situation
-      // like this, the function stopAnimation should be in the
-      // same context as the setInterval, otherwise it should be declared
-      // in global scope, like this.autoSlideTimer.
       function stopAnimation() {
         self.slides[self.currentSlideIndex].classList.remove('.active');
         // self.slides[self.newSlideIndex].style.left = "0%";
@@ -346,17 +267,14 @@
       }
     },
 
-    slideControlDisplay: function() {
+    slideControlDisplay: function () {
       // clientX/Y coordinates are relative to the top left corner of
       // the visible part of the page, "seen" through browser window.
       // pageX/Y coordinates are relative to the top left corner of
       // the whole rendered page (including parts hidden by scrolling).
-      // If use "let mouseX = event.clientX;..." to output mouse coordinates,
-      // the variable should be declared in the same scope.
-      // For the example below, it should be declared within the arrow function.
       this.el.addEventListener(
         'mousemove',
-        evt => {
+        (evt) => {
           if (
             evt.clientX - this.containerOffsetLeft <
             this.containerWidthValue / 2
@@ -382,13 +300,10 @@
         },
         false
       );
-    }
+    },
   };
 
-  // The DOMContentLoaded event is fired when the initial HTML
-  // document has been completely loaded and parsed, without waiting
-  // for stylesheets, images, and subframes to finish loading.
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     let slider = new Slideshow('#mySlider');
   });
 })();
